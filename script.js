@@ -125,10 +125,8 @@ const viewCounter = new Counter({
 
 async function updateViews() {
     try {
-        // +1 просмотр
         await viewCounter.up("first-counter-5755");
 
-        // Получаем настоящее текущее количество
         const result = await viewCounter.stats("first-counter-5755");
 
         document.getElementById("views").textContent =
