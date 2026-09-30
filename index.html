@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ftapov</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+        <div id="enterScreen">
+        <p>click to enter</p>
+    </div>
+
+    <video class="background-video" autoplay muted loop playsinline>
+        <source src="images/71b23649-4919-4bc4-91b4-92ccde53678e.mp4" type="video/mp4">
+    </video>
+
+
+    <div class="overlay"></div>
+
+
+    <main class="profile">
+
+        <img class="avatar" src="images/avatar.png" alt="avatar">
+
+        <h1>ftapov</h1>
+        <p class="description">HI</p>
+        <div class="profile-stats">
+    <span>
+        <i class="fa-solid fa-location-dot"></i>
+        Almaty
+    </span>
+
+    <span>
+        <i class="fa-solid fa-eye"></i>
+        <span id="views">0</span>
+    </span>
+</div>
+        <div class="music">
+
+    <img class="music-cover" src="images/images.jpg" alt="cover">
+
+    <div class="music-info">
+        <div class="time">
+    <span id="currentTime">0:00</span>
+    <span id="duration">0:00</span>
+    </div>
+        <strong>World's A Fuck</strong>
+        <span>Sematary</span>
+
+        <div class="progress">
+            <div id="progressBar"></div>
+        </div>
+    </div>
+
+    <button id="playButton">▶</button>
+
+    <audio id="audio" src="images/Запись (126).mp3" autoplay loop></audio>
+
+</div>
+
+
+<div class="socials">
+
+<a href="#" id="discordLink">
+    <i class="fa-brands fa-discord"></i>
+    <span>Discord</span>
+</a>
+
+    <a href="https://www.roblox.com/users/2848238407/profile" target="_blank">
+        <i class="fa-solid fa-gamepad"></i>
+        <span>Roblox</span>
+    </a>
+
+    <a href="https://www.tiktok.com/@ftapov" target="_blank">
+        <i class="fa-brands fa-tiktok"></i>
+        <span>TikTok</span>
+    </a>
+
+<a href="https://t.me/bioftapov" target="_blank">
+    <i class="fa-brands fa-telegram"></i>
+    <span>Telegram</span>
+</a>
+
+    <a href="https://steamcommunity.com/profiles/76561198768923543/" target="_blank">
+        <i class="fa-brands fa-steam"></i>
+        <span>Steam</span>
+    </a>
+    <div id="discordPopup" class="discord-popup">
+
+    <div class="discord-box">
+
+        <button id="closeDiscord">×</button>
+
+        <i class="fa-brands fa-discord discord-icon"></i>
+
+        <p>Discord</p>
+
+        <strong id="discordName">ftapov</strong>
+
+
+    </div>
+
+</div>
+
+</div>
+
+
+        
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+
+</html>
