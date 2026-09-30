@@ -119,15 +119,24 @@ discordPopup.addEventListener("click", function (event) {
 
 });
 
-viewCounter.up("first-counter-5755")
-    .then(function (result) {
-        console.log("COUNTER RESULT:", result);
-        console.log("UP COUNT:", result.data?.up_count);
+const viewCounter = new Counter({
+    workspace: "ftapov"
+});
+
+async function updateViews() {
+    try {
+        // +1 просмотр
+        await viewCounter.up("first-counter-5755");
+
+        // Получаем настоящее текущее количество
+        const result = await viewCounter.stats("first-counter-5755");
 
         document.getElementById("views").textContent =
-            result.data?.up_count ?? "0";
-    })
-    .catch(function (error) {
-        console.error("COUNTER ERROR:", error);
-        document.getElementById("views").textContent = "0";
-    });
+            result.data.up_count;
+
+    } catch (error) {
+        console.error("Ошибка счётчика:", error);
+    }
+}
+
+updateViews();
