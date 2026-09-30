@@ -192,34 +192,22 @@ const viewCounter = new Counter({
     workspace: "ftapov"
 });
 
-
 async function updateViews() {
-
     try {
-
-        // Добавляем +1 просмотр
+        // +1 просмотр
         await viewCounter.up("first-counter-5755");
 
+        // Получаем актуальное значение
+        const result = await viewCounter.get("first-counter-5755");
 
-        // Получаем настоящее общее количество
-        const response = await fetch(
-            "https://api.counterapi.dev/v2/ftapov/first-counter-5755"
-        );
+        console.log("COUNTER:", result);
 
-        const result = await response.json();
-
-
-        // Показываем число возле глаза
         document.getElementById("views").textContent =
             result.data.up_count;
 
     } catch (error) {
-
         console.error("Ошибка счётчика:", error);
-
     }
-
 }
-
 
 updateViews();
