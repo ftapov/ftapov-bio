@@ -134,3 +134,14 @@ discordName.addEventListener("click", function () {
     }, 1500);
 
 });
+const viewCounter = new Counter({
+    workspace: "ftapov"
+});
+
+viewCounter.up("first-counter-5755")
+    .then(function (result) {
+        document.getElementById("views").textContent = result.value;
+    })
+    .catch(function (error) {
+        console.log("Ошибка счётчика:", error);
+    });
