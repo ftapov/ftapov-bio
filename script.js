@@ -118,25 +118,6 @@ discordPopup.addEventListener("click", function (event) {
     }
 
 });
-let discordName = document.getElementById("discordName");
-let copyNotification = document.getElementById("copyNotification");
-
-discordName.addEventListener("click", function () {
-
-    copyNotification.classList.add("show");
-
-    navigator.clipboard.writeText("ftapov").catch(function () {
-        console.log("Копирование недоступно локально");
-    });
-
-    setTimeout(function () {
-        copyNotification.classList.remove("show");
-    }, 1500);
-
-});
-const viewCounter = new Counter({
-    workspace: "ftapov"
-});
 
 viewCounter.up("first-counter-5755")
     .then(function (result) {
