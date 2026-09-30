@@ -145,3 +145,5 @@ viewCounter.up("first-counter-5755")
     .catch(function (error) {
         console.log("Ошибка счётчика:", error);
     });
+console.log("COUNTER CODE STARTED");
+console.log("Counter =", typeof Counter);
