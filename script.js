@@ -1,143 +1,225 @@
-let audio = document.getElementById("audio");
-let playButton = document.getElementById("playButton");
+// =========================
+// МУЗЫКА
+// =========================
 
-playButton.addEventListener("click", function () {
+const audio = document.getElementById("audio");
+const playBtn = document.getElementById("playBtn");
+const progress = document.getElementById("progress");
+const currentTime = document.getElementById("currentTime");
+const duration = document.getElementById("duration");
+
+
+// Play / Pause
+playBtn.addEventListener("click", function () {
+
     if (audio.paused) {
         audio.play();
-        playButton.textContent = "❚❚";
+        playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
     } else {
         audio.pause();
-        playButton.textContent = "▶";
+        playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
     }
+
 });
 
-audio.addEventListener("timeupdate", function () {
-    let progress = (audio.currentTime / audio.duration) * 100;
 
-    document.getElementById("progressBar").style.width = progress + "%";
-});
-audio.addEventListener("loadedmetadata", function () {
-    document.getElementById("duration").textContent = formatTime(audio.duration);
-});
-
-audio.addEventListener("timeupdate", function () {
-    document.getElementById("currentTime").textContent = formatTime(audio.currentTime);
-});
-
+// Формат времени 0:00
 function formatTime(seconds) {
-    let minutes = Math.floor(seconds / 60);
-    let secs = Math.floor(seconds % 60);
 
-    if (secs < 10) {
-        secs = "0" + secs;
+    if (isNaN(seconds)) {
+        return "0:00";
     }
 
-    return minutes + ":" + secs;
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+
+    return minutes + ":" + secs.toString().padStart(2, "0");
 }
-let progressLine = document.querySelector(".progress");
 
-progressLine.addEventListener("click", function (event) {
-    let clickPosition = event.offsetX;
-    let lineWidth = progressLine.clientWidth;
 
-    let percent = clickPosition / lineWidth;
+// Когда музыка загрузилась
+audio.addEventListener("loadedmetadata", function () {
 
-    audio.currentTime = percent * audio.duration;
-    if (audio.paused) {
-    playButton.textContent = "▶";
-} else {
-    playButton.textContent = "❚❚";
-}
-});
-audio.addEventListener("play", function () {
-    playButton.textContent = "❚❚";
+    duration.textContent = formatTime(audio.duration);
+
 });
 
-audio.addEventListener("pause", function () {
-    playButton.textContent = "▶";
+
+// Обновление полоски музыки
+audio.addEventListener("timeupdate", function () {
+
+    currentTime.textContent = formatTime(audio.currentTime);
+
+    if (audio.duration) {
+
+        const percent =
+            (audio.currentTime / audio.duration) * 100;
+
+        progress.value = percent;
+
+    }
+
 });
-let enterScreen = document.getElementById("enterScreen");
-let profile = document.querySelector(".profile");
+
+
+// Перемотка музыки
+progress.addEventListener("input", function () {
+
+    if (audio.duration) {
+
+        audio.currentTime =
+            (progress.value / 100) * audio.duration;
+
+    }
+
+});
+
+
+// =========================
+// ENTER SCREEN
+// =========================
+
+const enterScreen = document.getElementById("enterScreen");
+const profile = document.querySelector(".profile");
 
 enterScreen.addEventListener("click", function () {
-    audio.currentTime = 0;
-    audio.play();
 
-    enterScreen.style.opacity = "0";
+    enterScreen.style.display = "none";
 
-    setTimeout(function () {
-        enterScreen.style.display = "none";
-        profile.classList.add("show");
-    }, 250);
+    profile.classList.add("show");
+
+    audio.play()
+        .then(function () {
+
+            playBtn.innerHTML =
+                '<i class="fa-solid fa-pause"></i>';
+
+        })
+        .catch(function () {
+
+            console.log("Музыка не запустилась");
+
+        });
+
 });
-let cursorDot = document.querySelector(".cursor-dot");
-let cursorRing = document.querySelector(".cursor-ring");
+
+
+// =========================
+// КАСТОМНЫЙ КУРСОР
+// =========================
+
+const cursorDot = document.querySelector(".cursor-dot");
+const cursorRing = document.querySelector(".cursor-ring");
 
 document.addEventListener("mousemove", function (event) {
+
     cursorDot.style.left = event.clientX + "px";
     cursorDot.style.top = event.clientY + "px";
 
     cursorRing.style.left = event.clientX + "px";
     cursorRing.style.top = event.clientY + "px";
-});
-let clickableElements = document.querySelectorAll(
-    "a, button, .progress, #enterScreen"
-);
 
-clickableElements.forEach(function (element) {
+});
+
+
+// Увеличение курсора при наведении
+const hoverElements =
+    document.querySelectorAll(
+        "a, button, .progress, #enterScreen"
+    );
+
+hoverElements.forEach(function (element) {
 
     element.addEventListener("mouseenter", function () {
-        cursorRing.classList.add("active");
+
+        cursorRing.classList.add("hover");
+
     });
 
     element.addEventListener("mouseleave", function () {
-        cursorRing.classList.remove("active");
+
+        cursorRing.classList.remove("hover");
+
     });
 
 });
 
 
-let discordLink = document.getElementById("discordLink");
-let discordPopup = document.getElementById("discordPopup");
-let closeDiscord = document.getElementById("closeDiscord");
+// =========================
+// DISCORD POPUP
+// =========================
 
+const discordLink = document.getElementById("discordLink");
+const discordPopup = document.getElementById("discordPopup");
+const closeDiscord = document.getElementById("closeDiscord");
+
+
+// Открыть Discord
 discordLink.addEventListener("click", function (event) {
+
     event.preventDefault();
 
     discordPopup.classList.add("show");
+
 });
 
+
+// Закрыть Discord
 closeDiscord.addEventListener("click", function () {
+
     discordPopup.classList.remove("show");
+
 });
 
+
+// Закрыть при клике за окном
 discordPopup.addEventListener("click", function (event) {
 
     if (event.target === discordPopup) {
+
         discordPopup.classList.remove("show");
+
     }
 
 });
+
+
+// =========================
+// СЧЁТЧИК ПРОСМОТРОВ
+// =========================
 
 const viewCounter = new Counter({
     workspace: "ftapov"
 });
 
-async function updateViews() {
-    try {
-        // Сначала узнаём текущее число
-        const stats = await viewCounter.stats("first-counter-5755");
-        const currentViews = stats.data.up_count;
 
-        // Увеличиваем счётчик
+async function updateViews() {
+
+    try {
+
+        // Добавляем +1 просмотр
         await viewCounter.up("first-counter-5755");
 
-        // Сразу показываем +1
-        document.getElementById("views").textContent = currentViews + 1;
+
+        // Получаем настоящее общее количество
+        const response = await fetch(
+            "https://api.counterapi.dev/v2/ftapov/first-counter-5755"
+        );
+
+        const result = await response.json();
+
+
+        // Показываем число возле глаза
+        document.getElementById("views").textContent =
+            result.data.up_count;
 
     } catch (error) {
+
         console.error("Ошибка счётчика:", error);
+
     }
+
 }
+
 
 updateViews();
