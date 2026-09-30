@@ -125,12 +125,15 @@ const viewCounter = new Counter({
 
 async function updateViews() {
     try {
+        // Сначала узнаём текущее число
+        const stats = await viewCounter.stats("first-counter-5755");
+        const currentViews = stats.data.up_count;
+
+        // Увеличиваем счётчик
         await viewCounter.up("first-counter-5755");
 
-        const result = await viewCounter.stats("first-counter-5755");
-
-        document.getElementById("views").textContent =
-            result.data.up_count;
+        // Сразу показываем +1
+        document.getElementById("views").textContent = currentViews + 1;
 
     } catch (error) {
         console.error("Ошибка счётчика:", error);
