@@ -4,7 +4,7 @@
 
 const audio = document.getElementById("audio");
 const playBtn = document.getElementById("playButton");
-const progress = document.getElementById("progress");
+const progressBar = document.getElementById("progressBar");
 const currentTime = document.getElementById("currentTime");
 const duration = document.getElementById("duration");
 
@@ -45,7 +45,7 @@ audio.addEventListener("loadedmetadata", function () {
 });
 
 
-// Обновление полоски музыки
+// Обновление времени и полоски
 audio.addEventListener("timeupdate", function () {
 
     currentTime.textContent = formatTime(audio.currentTime);
@@ -55,20 +55,7 @@ audio.addEventListener("timeupdate", function () {
         const percent =
             (audio.currentTime / audio.duration) * 100;
 
-        progress.value = percent;
-
-    }
-
-});
-
-
-// Перемотка музыки
-progress.addEventListener("input", function () {
-
-    if (audio.duration) {
-
-        audio.currentTime =
-            (progress.value / 100) * audio.duration;
+        progressBar.style.width = percent + "%";
 
     }
 
@@ -123,10 +110,9 @@ document.addEventListener("mousemove", function (event) {
 
 
 // Увеличение курсора при наведении
-const hoverElements =
-    document.querySelectorAll(
-        "a, button, .progress, #enterScreen"
-    );
+const hoverElements = document.querySelectorAll(
+    "a, button, .progress, #enterScreen"
+);
 
 hoverElements.forEach(function (element) {
 
@@ -172,7 +158,7 @@ closeDiscord.addEventListener("click", function () {
 });
 
 
-// Закрыть при клике за окном
+// Закрыть Discord при клике вне окна
 discordPopup.addEventListener("click", function (event) {
 
     if (event.target === discordPopup) {
@@ -192,22 +178,42 @@ const viewCounter = new Counter({
     workspace: "ftapov"
 });
 
+
 async function updateViews() {
+
+    const views = document.getElementById("views");
+
     try {
-        // +1 просмотр
+
+        // Добавляем +1 просмотр
         await viewCounter.up("first-counter-5755");
 
-        // Получаем актуальное значение
-        const result = await viewCounter.get("first-counter-5755");
+
+        // Получаем актуальное общее значение напрямую из API
+        const response = await fetch(
+            "https://api.counterapi.dev/v2/ftapov/first-counter-5755"
+        );
+
+
+        const result = await response.json();
 
         console.log("COUNTER:", result);
 
-        document.getElementById("views").textContent =
-            result.data.up_count;
+
+        // Показываем число
+        views.textContent = result.data.up_count;
 
     } catch (error) {
+
         console.error("Ошибка счётчика:", error);
+
+        // Если API временно не работает,
+        // хотя бы оставляем 0
+        views.textContent = "0";
+
     }
+
 }
+
 
 updateViews();
