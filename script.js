@@ -201,7 +201,7 @@ async function updateViews() {
 
 
         // Показываем число
-        views.textContent = result.data.up_count;
+        views.textContent = result.data.up_count + 1;
 
     } catch (error) {
 
