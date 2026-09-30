@@ -140,10 +140,8 @@ const viewCounter = new Counter({
 
 viewCounter.up("first-counter-5755")
     .then(function (result) {
-        document.getElementById("views").textContent = result.value;
+        document.getElementById("views").textContent = result.data.up_count;
     })
     .catch(function (error) {
         console.log("Ошибка счётчика:", error);
     });
-console.log("COUNTER CODE STARTED");
-console.log("Counter =", typeof Counter);
