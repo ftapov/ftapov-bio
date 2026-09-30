@@ -3,7 +3,7 @@
 // =========================
 
 const audio = document.getElementById("audio");
-const playBtn = document.getElementById("playBtn");
+const playBtn = document.getElementById("playButton");
 const progress = document.getElementById("progress");
 const currentTime = document.getElementById("currentTime");
 const duration = document.getElementById("duration");
